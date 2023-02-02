@@ -1,17 +1,27 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import Header from './Components/Layout/Header';
 import Meals from './Components/Meals/Meals';
 import Cart from './Components/Cart/Cart';
+import CartContext from './Components/Cart/CartContext';
 
 function App() {
+  const [dispCart, setDispCart] = useState(false);
+
+  const dispCartHandler = () => {
+    setDispCart(true);
+  };
+
+  const closeCartHandler = () => {
+    setDispCart(false);
+  };
   return (
-    <Fragment>
-      <Cart />
+    <CartContext.Provider value={dispCart}>
+      {dispCart && <Cart closeCart={closeCartHandler} />}
       <main>
-        <Header />
+        <Header showCart={dispCartHandler} />
         <Meals />
       </main>
-    </Fragment>
+    </CartContext.Provider>
   );
 }
 

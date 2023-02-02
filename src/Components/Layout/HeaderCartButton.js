@@ -1,10 +1,10 @@
-import React from "react";
-import styles from "./HeaderCartButton.module.css";
-import CartIcon from "../Cart/CartIcon";
+import React from 'react';
+import styles from './HeaderCartButton.module.css';
+import CartIcon from '../Cart/CartIcon';
 
 const Button = (props) => {
   return (
-    <button className={styles.button}>
+    <button className={styles.button} onClick={props.dispCart}>
       <span className={styles.icon}>
         <CartIcon />
       </span>
