@@ -7,14 +7,16 @@ import axios from 'axios';
 const AvailableMeals = () => {
   const [meal, setMeal] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [httpError, setHttpError] = useState();
 
   useEffect(() => {
     const DUMMY_MEALS = [];
     const fetchMeals = async () => {
       setIsLoading(true);
+      setHttpError();
       const FB_MEALS = await axios({
         method: 'GET',
-        url: 'https://start-wars-58d68-default-rtdb.asia-southeast1.firebasedatabase.app/meals.json',
+        url: 'https://start-wars-58d68-default-rtdb.asia-southeast1.firebasedatabase.app/meals.jso',
       });
 
       for (const meal in FB_MEALS.data) {
@@ -24,11 +26,18 @@ const AvailableMeals = () => {
       setIsLoading(false);
     };
 
-    fetchMeals();
+    fetchMeals().catch((e) => {
+      setIsLoading(false);
+      setHttpError(e.message);
+    });
   }, []);
 
   if (isLoading) {
     return <section className={styles.isLoading}>Loading...</section>;
+  }
+
+  if (httpError) {
+    return <section className={styles.MealsError}>{httpError}</section>;
   }
 
   const meals = meal.map((el) => (
