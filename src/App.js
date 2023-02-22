@@ -3,6 +3,7 @@ import Header from './Components/Layout/Header';
 import Meals from './Components/Meals/Meals';
 import Cart from './Components/Cart/Cart';
 import CartContextProvider from './store/CartContextProvider';
+
 function App() {
   const [dispCart, setDispCart] = useState(false);
 
@@ -13,6 +14,7 @@ function App() {
   const closeCartHandler = () => {
     setDispCart(false);
   };
+
   return (
     <CartContextProvider>
       {dispCart && <Cart closeCart={closeCartHandler} />}

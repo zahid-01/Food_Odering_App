@@ -16,7 +16,7 @@ const AvailableMeals = () => {
       setHttpError();
       const FB_MEALS = await axios({
         method: 'GET',
-        url: 'https://start-wars-58d68-default-rtdb.asia-southeast1.firebasedatabase.app/meals.jso',
+        url: 'https://start-wars-58d68-default-rtdb.asia-southeast1.firebasedatabase.app/meals.json',
       });
 
       for (const meal in FB_MEALS.data) {
