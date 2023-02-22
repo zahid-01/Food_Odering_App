@@ -1,36 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './AvailableMeals.module.css';
 import Card from '../UI/Card';
 import MealItem from './MealItem/MealItem';
+import axios from 'axios';
 
-const DUMMY_MEALS = [
-  {
-    id: 'm1',
-    name: 'Rista',
-    description: 'Fine Meat Balls',
-    price: 22.99,
-  },
-  {
-    id: 'm2',
-    name: 'Kebeb',
-    description: 'Barbeque Chopped mutton',
-    price: 16.5,
-  },
-  {
-    id: 'm3',
-    name: 'Gushtab',
-    description: 'Meat balls with curd gravy',
-    price: 12.99,
-  },
-  {
-    id: 'm4',
-    name: 'Rogan Josh',
-    description: 'Mutton/Beef cooked with spices',
-    price: 18.99,
-  },
-];
 const AvailableMeals = () => {
-  const meals = DUMMY_MEALS.map((el) => (
+  const [meal, setMeal] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const DUMMY_MEALS = [];
+    const fetchMeals = async () => {
+      setIsLoading(true);
+      const FB_MEALS = await axios({
+        method: 'GET',
+        url: 'https://start-wars-58d68-default-rtdb.asia-southeast1.firebasedatabase.app/meals.json',
+      });
+
+      for (const meal in FB_MEALS.data) {
+        DUMMY_MEALS.push({ id: meal, ...FB_MEALS.data[meal] });
+      }
+      setMeal(DUMMY_MEALS);
+      setIsLoading(false);
+    };
+
+    fetchMeals();
+  }, []);
+
+  if (isLoading) {
+    return <section className={styles.isLoading}>Loading...</section>;
+  }
+
+  const meals = meal.map((el) => (
     <MealItem
       key={el.id}
       name={el.name}
